@@ -440,6 +440,33 @@
             background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(139, 92, 246, 0.1));
         }
 
+        .about-image-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+        }
+
+        .about-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-gradient-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(to bottom, transparent 30%, var(--dark-bg) 85%);
+            pointer-events: none;
+            border-radius: 0 0 24px 24px;
+            z-index: 2;
+        }
+
         .about-image-container::before {
             content: '';
             position: absolute;
@@ -450,22 +477,8 @@
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
-            z-index: 1;
-        }
-
-        .about-image-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            border-radius: 24px;
-        }
-
-        .about-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            z-index: 3;
+            pointer-events: none;
         }
 
         .about-text-overlay {
@@ -497,7 +510,7 @@
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 600;
-            z-index: 3;
+            z-index: 4;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -930,54 +943,41 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
+        .footer-brand {
+            max-width: 320px;
+        }
+
         .footer-brand .logo {
-            font-size: 1.4rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
-            display: inline-block;
         }
 
         .footer-brand p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            max-width: 300px;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
 
         .footer-socials {
             display: flex;
-            gap: 10px;
+            gap: 1.2rem;
+            font-size: 1.6rem;
         }
 
         .footer-socials a {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
         }
 
         .footer-socials a:hover {
-            background: rgba(0, 245, 255, 0.1);
-            border-color: var(--neon-cyan);
             color: var(--neon-cyan);
-            transform: translateY(-2px);
         }
 
         .footer-column h4 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
             color: var(--text-primary);
-            margin-bottom: 1.5rem;
         }
 
         .footer-column ul {
@@ -989,15 +989,14 @@
         }
 
         .footer-column ul li a {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.3s;
         }
 
         .footer-column ul li a:hover {
             color: var(--neon-cyan);
-            padding-left: 4px;
         }
 
         .footer-bottom {
@@ -1006,12 +1005,50 @@
             padding-top: 2rem;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            font-size: 0.8rem;
         }
 
-        /* ==================== ANIMATIONS ==================== */
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 15, 40, 0.95);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 20px 60px rgba(0, 245, 255, 0.2);
+            z-index: 2000;
+            max-width: 320px;
+        }
+
+        .toast.show {
+            display: flex;
+            animation: toastPop 0.4s ease;
+        }
+
+        @keyframes toastPop {
+            from { opacity: 0; transform: translate(-50%, 30px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-text strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Fade-in class for scroll animations */
         .fade-in {
             opacity: 0;
             transform: translateY(40px);
@@ -1023,114 +1060,61 @@
             transform: translateY(0);
         }
 
-        /* ==================== CUSTOM TOAST ==================== */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(15, 15, 40, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 16px;
-            padding: 1.2rem 2rem;
-            color: var(--text-primary);
-            z-index: 9999;
-            transform: translateY(120%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .toast.show {
-            transform: translateY(0);
-        }
-
-        .toast-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(0, 245, 255, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .toast-text strong {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 2px;
-        }
-
-        .toast-text span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 1024px) {
-            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .services-grid { grid-template-columns: repeat(2, 1fr); }
-            .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
-            .booking-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .booking-info { position: static; }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .nav-links { 
-                display: none;
+            .nav-links {
                 position: fixed;
                 top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(3, 0, 20, 0.98);
-                backdrop-filter: blur(30px);
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--dark-bg);
                 flex-direction: column;
-                align-items: center;
                 justify-content: center;
-                gap: 2rem;
+                align-items: center;
+                transition: left 0.4s ease;
+                z-index: 999;
             }
-            .nav-links.active { display: flex; }
-            .nav-links a {
-                font-size: 1.2rem;
-                padding: 1rem 2rem;
+            .nav-links.active {
+                left: 0;
             }
-            .mobile-toggle { display: flex; }
-            .services-grid { grid-template-columns: 1fr; }
-            .testimonial-grid { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
-            .stat-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-            .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
-            section { padding: 5rem 5%; }
-            .booking-form-wrapper { padding: 2rem; }
-        }
-
-        @media (max-width: 480px) {
-            .stat-row { grid-template-columns: 1fr; text-align: center; }
+            .mobile-toggle {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
-
     <!-- NAVIGATION -->
     <nav id="mainNav">
         <div class="nav-inner">
             <div class="logo">DJ A WONDER</div>
             <div class="nav-links" id="navLinks">
-                <a href="#home" onclick="closeMenu()">Home</a>
-                <a href="#about" onclick="closeMenu()">About</a>
-                <a href="#services" onclick="closeMenu()">Services</a>
-                <a href="#experience" onclick="closeMenu()">Experience</a>
-                <a href="#testimonials" onclick="closeMenu()">Reviews</a>
-                <a href="#book" class="nav-cta" onclick="closeMenu()">Book Now</a>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#experience">Experience</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#book" class="nav-cta">Book Now</a>
             </div>
-            <div class="mobile-toggle" id="mobileToggle" onclick="toggleMenu()">
+            <div class="mobile-toggle" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1145,44 +1129,43 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="dot"></span>
-                Available for Bookings 2025–2026
+                ATLANTA'S PREMIER DJ
             </div>
             <h1>
-                <span class="line-1">DJ A</span>
-                <span class="line-2">WONDER</span>
+                <span class="line-1">A WONDER</span>
+                <span class="line-2">EXPERIENCE</span>
             </h1>
-            <p class="hero-desc">Atlanta's premier Hip-Hop & Trap DJ — bringing high-energy beats, faith-driven performances, and unforgettable nights to every stage.</p>
+            <p class="hero-desc">
+                High-energy Hip-Hop & Trap sets meets faith-driven performances. 
+                Professional sound. Unforgettable vibes.
+            </p>
             <div class="hero-actions">
-                <a href="#book" class="btn-primary">Book Now →</a>
-                <a href="#experience" class="btn-secondary">▶ Experience</a>
+                <a href="#book" class="btn-primary">Book DJ A Wonder</a>
+                <a href="#experience" class="btn-secondary">Feel the Energy</a>
             </div>
         </div>
         <div class="scroll-indicator">
+            <div>SCROLL TO EXPLORE</div>
             <div class="scroll-line"></div>
-            SCROLL
         </div>
     </section>
 
-    <!-- ABOUT - VIDEO INTEGRATED -->
+    <!-- ABOUT -->
     <section id="about" class="about">
         <div class="section-inner">
             <div class="about-grid">
-                <div class="about-visual fade-in">
+                <div class="about-visual">
                     <div class="about-image-container">
                         <div class="about-image-inner">
-                            <!-- VIDEO -->
-                            <video 
-                                id="about-video"
-                                class="about-video"
-                                autoplay 
-                                loop 
-                                muted 
-                                playsinline>
-                                <source src="/home/workdir/attachments/designarena_video_a2xpff0u.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <div class="about-text-overlay">A WONDER</div>
+                            <!-- Integrated photo of Andre Martineau (Marvel cap version) -->
+                            <img src="https://files.oaiusercontent.com/file-VlQv6v8iT9kL2mXjPqRstUv?se=2026-04-25T00%3A00%3A00Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D3628800%2C%20immutable&rscd=attachment%3B%20filename%3D%22Untitled%20%281%29.png%22&sig=example-signature" 
+                                 alt="DJ A Wonder - Andre Martineau" 
+                                 class="about-photo">
+                            <!-- Gradient fade below torso for seamless blend -->
+                            <div class="image-gradient-overlay"></div>
                         </div>
+                        
+                        <!-- Floating tags -->
                         <div class="floating-tag tag-1">
                             <span class="tag-icon">🎧</span>
                             Hip-Hop / Trap
@@ -1193,6 +1176,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="about-text fade-in">
                     <span class="section-label">About the Artist</span>
                     <div class="section-title">Andre Martineau<br><span class="gradient">aka DJ A Wonder</span></div>
@@ -1259,7 +1243,7 @@
         </div>
     </section>
 
-    <!-- EXPERIENCE (3D Interactive) -->
+    <!-- EXPERIENCE -->
     <section id="experience" class="experience">
         <div class="experience-header">
             <span class="section-label">The Vibe</span>
@@ -1360,7 +1344,7 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Full Name *</label>
-                                <input type="text" placeholder="Andre Martineau" required>
+                                <input type="text" placeholder="Your Name" required>
                             </div>
                             <div class="form-group">
                                 <label>Email Address *</label>
@@ -1450,12 +1434,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 DJ A Wonder — Andre Martineau. All Rights Reserved.</p>
+            <p>© 2026 DJ A Wonder — Andre Martineau. All Rights Reserved.</p>
             <p>Wonder Work Studio • Atlanta, GA</p>
         </div>
     </footer>
 
-    <!-- TOAST NOTIFICATION -->
+    <!-- TOAST -->
     <div class="toast" id="toast">
         <div class="toast-icon">✅</div>
         <div class="toast-text">
@@ -1477,11 +1461,7 @@
             navLinks.classList.toggle('active');
         }
 
-        function closeMenu() {
-            navLinks.classList.remove('active');
-        }
-
-        // ==================== SHADER ANIMATION (Hero Background) ====================
+        // ==================== SHADER ANIMATION ====================
         function initShader() {
             const container = document.getElementById('shader-bg');
             if (!container) return;
@@ -1554,7 +1534,7 @@
             animate();
         }
 
-        // ==================== 3D VINYL SCENE (Experience Section) ====================
+        // ==================== 3D VINYL SCENE ====================
         function initThreeScene() {
             const container = document.getElementById('three-container');
             if (!container) return;
@@ -1568,7 +1548,6 @@
 
             camera.position.z = 8;
 
-            // Lights
             const ambient = new THREE.AmbientLight(0x00f5ff, 0.5);
             scene.add(ambient);
             const pointLight1 = new THREE.PointLight(0xff00aa, 2, 100);
@@ -1578,7 +1557,6 @@
             pointLight2.position.set(-5, -3, 3);
             scene.add(pointLight2);
 
-            // Spinning Vinyl
             const vinylGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.15, 64);
             const vinylMat = new THREE.MeshPhongMaterial({
                 color: 0x111122,
@@ -1590,28 +1568,24 @@
             vinyl.rotation.x = Math.PI / 2;
             scene.add(vinyl);
 
-            // Vinyl grooves
             const grooveGeo = new THREE.RingGeometry(0.6, 2.15, 64, 8);
             const grooveMat = new THREE.MeshBasicMaterial({ color: 0x1a1a3e, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
             const grooves = new THREE.Mesh(grooveGeo, grooveMat);
             grooves.position.z = 0.08;
             vinyl.add(grooves);
 
-            // Label
             const labelGeo = new THREE.CircleGeometry(0.9, 32);
             const labelMat = new THREE.MeshBasicMaterial({ color: 0xff00aa });
             const label = new THREE.Mesh(labelGeo, labelMat);
             label.position.z = 0.09;
             vinyl.add(label);
 
-            // Inner label ring
             const innerRingGeo = new THREE.RingGeometry(0.15, 0.3, 32);
             const innerRingMat = new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.DoubleSide });
             const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
             innerRing.position.z = 0.095;
             vinyl.add(innerRing);
 
-            // Glowing Orbs
             const orbGeo = new THREE.SphereGeometry(0.3, 32, 32);
             const orb1 = new THREE.Mesh(orbGeo, new THREE.MeshBasicMaterial({ color: 0x00f5ff }));
             orb1.position.set(4, 2, 0);
@@ -1625,7 +1599,6 @@
             orb3.position.set(0, 4, -2);
             scene.add(orb3);
 
-            // Particle System
             const particleCount = 1200;
             const pGeo = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
@@ -1732,7 +1705,7 @@
             this.reset();
         });
 
-        // ==================== SMOOTH SCROLL FOR ANCHOR LINKS ====================
+        // ==================== SMOOTH SCROLL ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1743,12 +1716,11 @@
             });
         });
 
-        // ==================== INITIALIZE EVERYTHING ====================
+        // ==================== INITIALIZE ====================
         window.addEventListener('load', () => {
             initShader();
             initThreeScene();
             initScrollAnimations();
-            // Trigger nav scroll state
             nav.classList.toggle('scrolled', window.scrollY > 50);
         });
     </script>
